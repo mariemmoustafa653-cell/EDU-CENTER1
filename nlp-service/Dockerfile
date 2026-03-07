@@ -10,6 +10,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir -r requirements.txt
 
+ENV HF_HOME=/app/.cache
+RUN mkdir -p /app/.cache
+
 COPY . .
 
 RUN chown -R appuser:appgroup /app
