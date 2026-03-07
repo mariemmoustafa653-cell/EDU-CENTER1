@@ -1,17 +1,15 @@
-FROM python:3.11-slim AS builder
-
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install \
-    torch --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir --prefix=/install -r requirements.txt
-
 FROM python:3.11-slim
+
 WORKDIR /app
 
 RUN addgroup --system appgroup && adduser --system --ingroup appgroup appuser
 
-COPY --from=builder /install /usr/local
+COPY requirements.txt .
+
+# Install dependencies in a single stage to avoid slow layer exports on small CI runners
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
 RUN chown -R appuser:appgroup /app
