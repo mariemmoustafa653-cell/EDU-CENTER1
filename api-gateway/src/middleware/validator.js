@@ -2,13 +2,13 @@ const { body, validationResult } = require('express-validator');
 
 const summarizeValidationRules = [
     body('start_page')
-        .exists().withMessage('start_page is required')
+        .optional()
         .isInt({ min: 1 }).withMessage('start_page must be a positive integer'),
     body('end_page')
-        .exists().withMessage('end_page is required')
+        .optional()
         .isInt({ min: 1 }).withMessage('end_page must be a positive integer'),
     body('start_page').custom((value, { req }) => {
-        if (parseInt(value, 10) > parseInt(req.body.end_page, 10)) {
+        if (value && req.body.end_page && parseInt(value, 10) > parseInt(req.body.end_page, 10)) {
             throw new Error('start_page must be less than or equal to end_page');
         }
         return true;

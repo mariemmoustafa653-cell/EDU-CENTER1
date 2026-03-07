@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 # Text Summarization Platform
 
-Production-grade microservices system for extracting and summarizing text from PDF documents.
+Production-grade microservices system for extracting and summarizing text from PDF, DOCX, PPTX, and TXT documents.
 
 ## Architecture
 
@@ -11,7 +10,7 @@ Production-grade microservices system for extracting and summarizing text from P
                         │   Reverse   │
                         │    Proxy    │
                         └──────┬──────┘
-                               │
+                                │
 ┌──────────────┐       HTTP    │        ┌──────────────┐
 │              │  ◄────────────┘  ───►  │              │
 │  API Gateway │   POST /api/v1/        │ NLP Service  │
@@ -20,16 +19,16 @@ Production-grade microservices system for extracting and summarizing text from P
 │              │   JSON response        │              │
 └──────┬───────┘                        └──────┬───────┘
        │                                       │
-  PDF Upload                           Summarization
-  Validation                           HuggingFace or
-  Text Extraction                      OpenAI Provider
-  Rate Limiting
-  API Key Auth
+  Multi-format                         Summarization
+  Uploads                              HuggingFace or
+  (PDF, DOCX,                          OpenAI Provider
+  PPTX, TXT)                           
 ```
 
 ### API Gateway (Node.js / Express)
-- PDF upload via Multer (10 MB limit, PDF only)
-- Page-range validation and text extraction
+- Universal document upload via Multer (10 MB limit)
+- Support for **PDF, DOCX, PPTX, and TXT**
+- Page-range extraction (for supported formats like PDF)
 - Text cleaning and sanitization
 - Request ID tracking, Winston logging
 - Helmet + CORS security, configurable timeout
