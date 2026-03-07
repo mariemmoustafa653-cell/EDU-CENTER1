@@ -80,65 +80,6 @@ API_KEY=your-secret-key bash deploy.sh prod
 
 ```bash
 # Development
-curl http://localhost:3000/health
-
-# Production (through Nginx)
-curl http://localhost:80/health
-```
-
-## API Reference
-
-### Interactive Docs
-
-```
-GET /api/v1/docs    → OpenAPI 3.0 JSON specification
-```
-
-### POST /api/v1/summarize
-
-**Headers:**
-
-| Header    | Required      | Description               |
-|-----------|---------------|---------------------------|
-| x-api-key | If configured | Your API key              |
-
-**Request** (multipart/form-data):
-
-| Field      | Type   | Required | Description          |
-|------------|--------|----------|----------------------|
-| file       | File   | Yes      | PDF file (max 10 MB) |
-| start_page | number | Yes      | First page (1-based) |
-| end_page   | number | Yes      | Last page (1-based)  |
-
-**Example:**
-
-```bash
-curl -X POST http://localhost:3000/api/v1/summarize \
-  -H "x-api-key: your-api-key" \
-  -F "file=@document.pdf" \
-  -F "start_page=1" \
-  -F "end_page=3"
-```
-
-**Response:**
-
-```json
-{
-  "status": "success",
-  "request_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-  "original_length": 4523,
-  "summary_length": 312,
-  "compression_ratio": 0.931,
-  "summary_text": "The document discusses..."
-}
-```
-
-### Error Responses
-
-| Code | Meaning                     |
-|------|----------------------------:|
-| 400  | Invalid file / page range   |
-| 401  | Missing API key             |
 | 403  | Invalid API key             |
 | 413  | Text too long               |
 | 422  | No text in selected pages   |
