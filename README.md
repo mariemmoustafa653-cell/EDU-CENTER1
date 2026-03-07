@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Text Summarization Platform
 
 Production-grade microservices system for extracting and summarizing text from PDF documents.
@@ -209,5 +210,4 @@ summarization/
 ├── docker-compose.prod.yml
 ├── deploy.sh
 └── README.md
-```
-
+# EDU-CENTER1
