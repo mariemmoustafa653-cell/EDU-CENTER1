@@ -88,6 +88,11 @@ curl http://localhost:80/health
 
 ## API Reference
 
+### Live Environment (Railway)
+
+The core NLP Service has been deployed separately to a public live environment and is accessible directly at:
+**`https://edu-center1-nlp-production.up.railway.app`**
+
 ### Interactive Docs
 
 ```
@@ -131,6 +136,24 @@ curl -X POST http://localhost:3000/api/v1/summarize \
   "compression_ratio": 0.931,
   "summary_text": "The document discusses..."
 }
+```
+
+### Direct NLP Service Request (Alternative)
+
+If you wish to hit the deployed NLP Service directly (bypassing the API gateway and PDF extraction), you can send raw text:
+
+**Example (Python):**
+
+```python
+import requests
+
+url = "https://edu-center1-nlp-production.up.railway.app/api/v1/summarize"
+payload = {
+    "text": "Artificial intelligence is a branch of computer science that deals with the simulation of intelligent behavior in computers. It includes machine learning, natural language processing, and robotics."
+}
+
+response = requests.post(url, json=payload)
+print(response.json())
 ```
 
 ### Error Responses
