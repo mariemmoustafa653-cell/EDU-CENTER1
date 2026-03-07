@@ -138,9 +138,14 @@ curl -X POST http://localhost:3000/api/v1/summarize \
 }
 ```
 
-### Direct NLP Service Request (Alternative)
+If you wish to hit the deployed NLP Service directly (bypassing the API gateway and PDF extraction), you must send the text as a `multipart/form-data` file upload.
 
-If you wish to hit the deployed NLP Service directly (bypassing the API gateway and PDF extraction), you can send raw text:
+**Request (multipart/form-data):**
+
+| Field      | Type   | Required | Description                     |
+|------------|--------|----------|---------------------------------|
+| file       | File   | Yes      | Text file to summarize          |
+| request_id | string | No       | Optional tracing ID             |
 
 **Example (Python):**
 
@@ -148,11 +153,13 @@ If you wish to hit the deployed NLP Service directly (bypassing the API gateway 
 import requests
 
 url = "https://edu-center1-nlp-production.up.railway.app/api/v1/summarize"
-payload = {
-    "text": "Artificial intelligence is a branch of computer science that deals with the simulation of intelligent behavior in computers. It includes machine learning, natural language processing, and robotics."
+
+# Send text as an in-memory file
+files = {
+    'file': ('document.txt', 'Artificial intelligence is a branch of computer science that deals with the simulation of intelligent behavior in computers. It includes machine learning, natural language processing, and robotics.', 'text/plain')
 }
 
-response = requests.post(url, json=payload)
+response = requests.post(url, files=files)
 print(response.json())
 ```
 

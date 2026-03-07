@@ -1,24 +1,34 @@
 const axios = require('axios');
+const FormData = require('form-data');
 const config = require('../config/env');
 const logger = require('../utils/logger');
 
 const nlpClient = axios.create({
     baseURL: config.nlpServiceUrl,
     timeout: config.requestTimeoutMs - 2000,
-    headers: { 'Content-Type': 'application/json' },
 });
 
 const summarize = async (text, requestId) => {
-    logger.info('Sending text to NLP service', {
+    logger.info('Sending text as file to NLP service', {
         requestId,
         textLength: text.length,
     });
 
     const startTime = Date.now();
+    
+    const formData = new FormData();
+    // Simulate a file upload from the extracted text
+    formData.append('file', Buffer.from(text, 'utf-8'), {
+        filename: 'document.txt',
+        contentType: 'text/plain'
+    });
+    
+    if (requestId) {
+        formData.append('request_id', requestId);
+    }
 
-    const response = await nlpClient.post('/api/v1/summarize', {
-        text,
-        request_id: requestId,
+    const response = await nlpClient.post('/api/v1/summarize', formData, {
+        headers: formData.getHeaders()
     });
 
     const duration = Date.now() - startTime;

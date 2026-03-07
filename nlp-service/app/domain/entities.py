@@ -1,10 +1,4 @@
-from pydantic import BaseModel, Field
-
-
-class SummarizationRequest(BaseModel):
-    text: str = Field(..., min_length=1, description="Text to summarize")
-    request_id: str | None = Field(None, description="Request tracing ID")
-
+from pydantic import BaseModel
 
 class SummarizationResponse(BaseModel):
     status: str = "success"
